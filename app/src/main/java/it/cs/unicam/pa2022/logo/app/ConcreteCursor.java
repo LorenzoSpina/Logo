@@ -1,15 +1,25 @@
 package it.cs.unicam.pa2022.logo.app;
 
-public class ConcreteCursor implements Cursor<Point<Double>, ConcreteDirection>{
-
+public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>{
+    Plane<Double> plane;
     Point<Double> position;
-    ConcreteDirection direction;
+    Direction<Integer>direction;
     RGB lineColour;
     RGB areaColour;
     double size;
     boolean plot; //indica se la penna durante lo spostamento la penna ha tracciato un segno
     boolean pen; //indica se la penna attualmente sta attaccata al piano o meno
 
+
+    public ConcreteCursor(){
+        this.position = new CartesianPoint(0.0,0.0);
+        this.direction = new ConcreteDirection(0);
+        this.lineColour = new RGB(0,0,0);
+        this.areaColour = new RGB(255,255,255);
+        this.size = 1;
+        this.plot = true;
+        this.pen = true;
+    }
     @Override
     public Plane getPlane() {
         return null;
@@ -27,12 +37,12 @@ public class ConcreteCursor implements Cursor<Point<Double>, ConcreteDirection>{
     }
 
     @Override
-    public ConcreteDirection getDirection() {
+    public Direction<Integer> getDirection() {
         return direction;
     }
 
     @Override
-    public void setDirection(ConcreteDirection direction) {
+    public void setDirection(Direction<Integer> direction) {
         this.direction=direction;
 
     }

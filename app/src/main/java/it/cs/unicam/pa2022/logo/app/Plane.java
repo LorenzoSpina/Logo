@@ -39,10 +39,23 @@ public interface Plane<C> {
      */
     C getCursorPosition(Cursor cursor);
 
+    /**
+     * method that returns the plane's colour
+     * @return
+     */
     RGB getPlaneColour();
 
-    RGB setPlaneColour(RGB colour);
+    /**
+     * method that sets the new colour for a plane
+     * @param colour the new colour
+     */
+    void setPlaneColour(RGB colour);
 
+    /**
+     * method that check if a point is on a plane
+     * @param point the point that we want to check if is on plane
+     * @return true if present, false if not
+     */
     boolean checkIfPointisOnThePlane(C point);
 
     //Map<> getPlanePoints();
@@ -50,6 +63,11 @@ public interface Plane<C> {
     List<Line> getPlaneLines();
 
     List<ClosedArea> getClosedAreas();
+
+    /**
+     * method that clears the plane
+     */
+    void cleanAll();
 
     void addPoint(C point);
 
