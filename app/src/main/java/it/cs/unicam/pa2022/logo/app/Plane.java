@@ -1,13 +1,16 @@
 package it.cs.unicam.pa2022.logo.app;
 
-import java.util.List;
+
+import java.util.Map;
+import java.util.Queue;
+
 
 /**
  * Interface that represents a generic plane
  * @param <C> represents the parametric type for the planes' coordinates
  */
 
-public interface Plane<C> {
+public interface Plane<C extends Point<? extends Number>,S> {
     /**
      * Method that gives back the height of the plane
      * @return the height of the plane
@@ -34,14 +37,13 @@ public interface Plane<C> {
 
     /**
      * Method that gives back the coordinates of the cursor on the plane
-     * @param cursor
      * @return
      */
-    C getCursorPosition(Cursor cursor);
+    Cursor getCursorPosition();
 
     /**
      * method that returns the plane's colour
-     * @return
+     * @return the colour of the plane
      */
     RGB getPlaneColour();
 
@@ -58,19 +60,38 @@ public interface Plane<C> {
      */
     boolean checkIfPointisOnThePlane(C point);
 
-    //Map<> getPlanePoints();
+    /**
+     * method that returns all the points of the plane
+     * @return the points of the plane
+     */
+    Map<C,S> getAllPlanePoints();
 
-    List<Line> getPlaneLines();
+    /**
+     * method that returns all the written points
+     * @return the written points
+     */
+    Map<C,S> getPlaneWrittenPoints();
 
-    List<ClosedArea> getClosedAreas();
+
+    Queue<Line<C>> getPlaneLines();
+//TODO TIPO DI CLOSED AREA
+    Queue<ClosedArea> getClosedAreas();
 
     /**
      * method that clears the plane
      */
     void cleanAll();
 
+    /**
+     * method that add a point on the plane
+     * @param point the point that must be added on the plane
+     */
     void addPoint(C point);
 
+    /**
+     * method that add a line on the plane
+     * @param line the line that must be added on the plane
+     */
     void addLine(Line line);
 
 

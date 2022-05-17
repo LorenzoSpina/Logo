@@ -1,14 +1,16 @@
 package it.cs.unicam.pa2022.logo.app;
 
 public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>{
-    Plane<Double> plane;
-    Point<Double> position;
-    Direction<Integer>direction;
-    RGB lineColour;
-    RGB areaColour;
-    double size;
-    boolean plot; //indica se la penna durante lo spostamento la penna ha tracciato un segno
-    boolean pen; //indica se la penna attualmente sta attaccata al piano o meno
+
+    //TODO dopo aver risolto la questione del piano
+    //Plane<Double> plane;
+    private Point<Double> position;
+    private Direction<Integer>direction;
+    private RGB lineColour;
+    private RGB areaColour;
+    private double size;
+    private boolean plot; //indica se la penna durante lo spostamento la penna ha tracciato un segno
+    private boolean pen; //indica se la penna attualmente sta attaccata al piano o meno
 
 
     public ConcreteCursor(){
