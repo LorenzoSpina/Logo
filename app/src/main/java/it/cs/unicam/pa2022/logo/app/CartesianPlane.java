@@ -20,10 +20,11 @@ public class CartesianPlane <S> implements Plane<Point<Double>,S>{
     public CartesianPlane(double height,double length,Point home,Point origin, Cursor cursor){
         this.height=height;
         this.length=length;
-        this.home=this.getHome();
-        this.origin=this.getOrigin();
-        this.cursor=this.getCursorPosition();
+        this.home= new CartesianPoint(length/2,height/2)
+        this.origin=new CartesianPoint(0.0,0.0);
+        this.cursor=cursor;
         this.planeColour=new RGB(255,255,255);
+
 
     }
 
@@ -31,43 +32,42 @@ public class CartesianPlane <S> implements Plane<Point<Double>,S>{
 
     @Override
     public double getHeight() {
-        return 0;
+        return this.height;
     }
 
     @Override
     public double getLength() {
-        return 0;
+        return this.length;
     }
 
     @Override
     public Point<Double> getHome() {
-        return null;
+        return this.home;
     }
 
     @Override
     public Point<Double> getOrigin() {
-        return null;
+        return this.origin;
     }
 
     @Override
-    public Cursor getCursorPosition() {
-        return null;
-    }
+    public Cursor getPlaneCursor() {
+        return this.cursor;}
 
 
     @Override
     public RGB getPlaneColour() {
-        return null;
+        return this.planeColour;
     }
 
     @Override
     public void setPlaneColour(RGB colour) {
-
+        this.planeColour=colour;
     }
 
     @Override
     public boolean checkIfPointisOnThePlane(Point<Double> point) {
-        return false;
+        return  ;
     }
 
     @Override

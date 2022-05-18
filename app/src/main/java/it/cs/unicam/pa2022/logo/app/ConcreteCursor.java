@@ -3,7 +3,7 @@ package it.cs.unicam.pa2022.logo.app;
 public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>{
 
     //TODO dopo aver risolto la questione del piano
-    //Plane<Double> plane;
+    private Plane<Double> plane;
     private Point<Double> position;
     private Direction<Integer>direction;
     private RGB lineColour;
@@ -14,7 +14,7 @@ public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>
 
 
     public ConcreteCursor(){
-        this.position = new CartesianPoint(0.0,0.0);
+        this.position = new CartesianPoint(plane.getLength()/2,plane.getHeight()/2);
         this.direction = new ConcreteDirection(0);
         this.lineColour = new RGB(0,0,0);
         this.areaColour = new RGB(255,255,255);
@@ -24,7 +24,7 @@ public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>
     }
     @Override
     public Plane getPlane() {
-        return null;
+        return this.plane;
     }
 
     @Override
@@ -35,7 +35,6 @@ public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>
     @Override
     public void setPosition(Point<Double> position) {
         this.position=position;
-
     }
 
     @Override
@@ -45,9 +44,7 @@ public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>
 
     @Override
     public void setDirection(Direction<Integer> direction) {
-        this.direction=direction;
-
-    }
+        this.direction=direction;}
 
     @Override
     public RGB getLineColour() {

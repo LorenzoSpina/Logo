@@ -4,7 +4,7 @@ package it.cs.unicam.pa2022.logo.app;
 /**
  *Class that implements a Point using floating numbers
  */
-public class CartesianPoint implements Point<Double>{
+public class CartesianPoint<S> implements Point<Double>{
 
     private final Double XPoint;
     private final Double YPoint;
