@@ -4,14 +4,16 @@ package it.cs.unicam.pa2022.logo.app;
 /**
  *Class that implements a Point using floating numbers
  */
-public class CartesianPoint<S> implements Point<Double>{
+public class CartesianPoint <D extends Number> implements Point<D>{
 
-    private final Double XPoint;
-    private final Double YPoint;
+    private final D XPoint;
+    private final D YPoint;
+    private boolean pointStatus;
 
-    public CartesianPoint(Double XPoint, Double YPoint) {
+    public CartesianPoint(D XPoint, D YPoint) {
         this.XPoint = XPoint;
         this.YPoint = YPoint;
+        this.pointStatus=false;
     }
 
     @Override
@@ -19,7 +21,7 @@ public class CartesianPoint<S> implements Point<Double>{
      * Method that gives the x in the plane
      * @return the x in the plane
      */
-    public Double getX() {
+    public D getX() {
         return this.XPoint;
     }
 
@@ -28,7 +30,19 @@ public class CartesianPoint<S> implements Point<Double>{
      * Method that gives the y in the plane
      * @return the y in the plane
      */
-    public Double getY() {
+    public D getY() {
         return this.YPoint;
+    }
+
+    @Override
+    public boolean getPointStatus() {
+        return this.pointStatus;
+    }
+
+    @Override
+    public void setPointStatus(boolean pointStatus) {
+        this.pointStatus=pointStatus;
+
+
     }
 }

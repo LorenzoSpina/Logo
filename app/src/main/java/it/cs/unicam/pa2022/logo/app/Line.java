@@ -29,4 +29,5 @@ public interface Line<C extends Point<? extends Number>> {
      * @return
      */
     double getSize();
+
 }

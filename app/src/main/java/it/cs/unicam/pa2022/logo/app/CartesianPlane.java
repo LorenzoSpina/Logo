@@ -1,9 +1,10 @@
 package it.cs.unicam.pa2022.logo.app;
 
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
-public class CartesianPlane <S> implements Plane<Point<Double>,S>{
+import java.util.stream.Collectors;
+
+public class CartesianPlane implements Plane<Point<Double>>{
 
     private final double height;
     private final double length;
@@ -11,32 +12,45 @@ public class CartesianPlane <S> implements Plane<Point<Double>,S>{
     private final Point<Double> origin;
     private final Cursor<Point<Double>,Direction<Integer>> cursor;
     private RGB planeColour;
-    private Map<Point<Double>,S> pointsMap;
-    private Queue<Line<Point<Double>>> planesLines;
-    private Queue<Line<Point<Double>>> planesClosedArea;
+    private Map<Point<Double>,Boolean> pointsMap;
+    private List<Line<Point<Double>>> planesLines;
+    private List<Line<Point<Double>>> planesClosedArea; //TODO CLOSED AREA
 
 
 
-    public CartesianPlane(double height,double length,Point home,Point origin, Cursor cursor){
+    public CartesianPlane(double height,double length,Point<Double> home,Point origin, Cursor cursor,Map pointsMap){
+        if(height < 1) {throw new IllegalArgumentException("Insert a bigger height than 2!");}
         this.height=height;
+
+        if(length < 1) {throw new IllegalArgumentException("Insert a bigger length than 2!");}
         this.length=length;
-        this.home= new CartesianPoint(length/2,height/2)
-        this.origin=new CartesianPoint(0.0,0.0);
+
+        if (home == null) {throw new NullPointerException("Home does not exist!");}
+        this.home = new CartesianPoint<Double>(this.getLength()/2, this.getHeight()/2);
+
+        if(origin == null){throw new NullPointerException("Origin does not exist!");}
+        this.origin=new CartesianPoint<Double>(0.0,0.0);
+
+        if (cursor==null){throw new NullPointerException("Cursor does not exist!");}
         this.cursor=cursor;
+
         this.planeColour=new RGB(255,255,255);
 
-
+       this.pointsMap = new HashMap<>();
+       this.planesLines=new ArrayList<>();
+       this.planesClosedArea=new ArrayList<>();
     }
 
 
 
     @Override
     public double getHeight() {
+
         return this.height;
     }
 
     @Override
-    public double getLength() {
+    public double getLength(){
         return this.length;
     }
 
@@ -51,7 +65,7 @@ public class CartesianPlane <S> implements Plane<Point<Double>,S>{
     }
 
     @Override
-    public Cursor getPlaneCursor() {
+    public Cursor<Point<Double>, Direction<Integer>> getPlaneCursor() {
         return this.cursor;}
 
 
@@ -66,42 +80,82 @@ public class CartesianPlane <S> implements Plane<Point<Double>,S>{
     }
 
     @Override
-    public boolean checkIfPointisOnThePlane(Point<Double> point) {
-        return  ;
+    public boolean checkIfPointIsNotOutOfBorders(Point<Double> point) {
+        /*if((point.getX()>this.getLength())||point.getX()<this.getLength())||(point.getY()>this.getHeight()||point.getY()<this.getHeight())){
+            return false;
+        }
+        return true;
+         */
+        Double correctX = point.getX();
+        Double correctY = point.getY();
+
+
+        if(point.getX()>this.getLength()){
+            correctX=this.length;
+        }
+        if(point.getX()<this.getLength()){
+            correctX=0.0;
+        }
+        if(point.getX()>this.getLength()){
+            correctY=this.height;
+        }
+        if(point.getX()<this.getLength()){
+            correctY=0.0;
+        }
     }
 
     @Override
-    public Map<Point<Double>, S> getAllPlanePoints() {
-        return null;
+    public Optional<Point<Double>> checkIfPointisOnThePlane(Point<Double> point) {
+        if (point.getPointStatus()==false){
+            return Optional.empty();
+        }
+        return Optional.of(point);
     }
 
     @Override
-    public Map<Point<Double>, S> getPlaneWrittenPoints() {
-        return null;
+    public Map<Point<Double>, Boolean> getAllPlanePoints() {
+        return this.pointsMap;
     }
 
     @Override
-    public Queue<Line<Point<Double>>> getPlaneLines() {
-        return null;
+    public List<Point<Double>> getPlaneWrittenPoints() {
+       return this.pointsMap.keySet().stream().filter(x-> x.getPointStatus()).collect(Collectors.toList());
     }
 
     @Override
-    public Queue<ClosedArea> getClosedAreas() {
-        return null;
+    public List<Line<Point<Double>>> getPlaneLines() {
+        return this.planesLines;
+    }
+
+    @Override
+    public List<ClosedArea> getClosedAreas() {
+        return this.planesClosedArea;
     }
 
     @Override
     public void cleanAll() {
+        this.planesLines.clear();
+        this.planesClosedArea.clear();
 
     }
 
     @Override
     public void addPoint(Point<Double> point) {
+        this.pointsMap.put(point,true);
+    }
+
+    @Override
+    public void addLine(Line<Point<Double>> line) {
+        this.planesLines.add(line);
 
     }
 
     @Override
-    public void addLine(Line line) {
+    public void addClosedArea(ClosedArea area){
+        this.planesClosedArea.add(area);
 
     }
+
+
+
 }

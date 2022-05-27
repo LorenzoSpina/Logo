@@ -1,4 +1,19 @@
 package it.cs.unicam.pa2022.logo.app;
 
-public interface ClosedArea {
+import java.util.Deque;
+
+public interface ClosedArea <L extends Line<Point<Double>>> {
+
+    RGB getAreaColour();
+
+    Deque<Line<Point<Double>>> getAreaLines();
+
+
+
+
+
+
+
+
+
 }

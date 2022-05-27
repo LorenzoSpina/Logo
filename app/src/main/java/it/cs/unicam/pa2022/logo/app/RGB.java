@@ -7,7 +7,7 @@ package it.cs.unicam.pa2022.logo.app;
  * @param b represents the blue tone
  */
 public record RGB(int r, int g, int b) {
-
+    //TODO VERIFICARE CON TEST SE WORKA
     public RGB{
      checkIfRGBIsValid(r,g,b);
     }
@@ -24,8 +24,8 @@ public record RGB(int r, int g, int b) {
         return b;
     }
 
-    private void checkIfRGBIsValid(int colour1, int colour2, int colour3){
-        if ((colour1<0 || colour1>255)||(colour2<0||colour2>255)||(colour3<0||colour3>255)){
+    private void checkIfRGBIsValid(int r, int g, int b){
+        if ((r <0 || r >255)||(g <0|| g >255)||(b <0|| b >255)){
             throw new IllegalArgumentException("This colour does not exist");
         }
     }

@@ -1,5 +1,5 @@
 package it.cs.unicam.pa2022.logo.app;
-
+//TODO COMMENTI
 public interface Cursor<C extends Point<? extends Number>,D extends Direction<? extends Number>>{
 
     /**
@@ -96,7 +96,7 @@ public interface Cursor<C extends Point<? extends Number>,D extends Direction<? 
     boolean pen();
     //metodo statico o di deafult per creare un cursoredi default
 
-    //vedi per ispen
+
 
 
 
