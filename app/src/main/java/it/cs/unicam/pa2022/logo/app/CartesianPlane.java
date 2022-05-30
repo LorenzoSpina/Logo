@@ -4,13 +4,12 @@ import java.util.*;
 
 import java.util.stream.Collectors;
 
-public class CartesianPlane implements Plane<Point<Double>>{
+public abstract class CartesianPlane implements Plane<Point<Double>>{
 
     private final double height;
     private final double length;
     private final Point<Double> home;
     private final Point<Double> origin;
-    private final Cursor<Point<Double>,Direction<Integer>> cursor;
     private RGB planeColour;
     private Map<Point<Double>,Boolean> pointsMap;
     private List<Line<Point<Double>>> planesLines;
@@ -18,23 +17,20 @@ public class CartesianPlane implements Plane<Point<Double>>{
 
 
 
-    public CartesianPlane(double height,double length,Point<Double> home,Point origin, Cursor cursor,Map pointsMap){
-        if(height < 1) {throw new IllegalArgumentException("Insert a bigger height than 2!");}
+    public CartesianPlane(double height,double length,Point<Double> home,Point<Double> origin,RGB startingPlaneColour){
+        if(height < 1) {throw new IllegalArgumentException("Insert a bigger height!");}
         this.height=height;
 
-        if(length < 1) {throw new IllegalArgumentException("Insert a bigger length than 2!");}
+        if(length < 1) {throw new IllegalArgumentException("Insert a bigger length!");}
         this.length=length;
 
         if (home == null) {throw new NullPointerException("Home does not exist!");}
-        this.home = new CartesianPoint<Double>(this.getLength()/2, this.getHeight()/2);
+        this.home = home;
 
         if(origin == null){throw new NullPointerException("Origin does not exist!");}
-        this.origin=new CartesianPoint<Double>(0.0,0.0);
+        this.origin= origin;
 
-        if (cursor==null){throw new NullPointerException("Cursor does not exist!");}
-        this.cursor=cursor;
-
-        this.planeColour=new RGB(255,255,255);
+        this.planeColour=startingPlaneColour;
 
        this.pointsMap = new HashMap<>();
        this.planesLines=new ArrayList<>();
@@ -64,9 +60,6 @@ public class CartesianPlane implements Plane<Point<Double>>{
         return this.origin;
     }
 
-    @Override
-    public Cursor<Point<Double>, Direction<Integer>> getPlaneCursor() {
-        return this.cursor;}
 
 
     @Override
@@ -102,24 +95,25 @@ public class CartesianPlane implements Plane<Point<Double>>{
         if(point.getX()<this.getLength()){
             correctY=0.0;
         }
+        return false;
     }
 
     @Override
     public Optional<Point<Double>> checkIfPointisOnThePlane(Point<Double> point) {
-        if (point.getPointStatus()==false){
+        if (!point.getPointStatus()){
             return Optional.empty();
         }
         return Optional.of(point);
     }
 
-    @Override
+    @Override //probabilmente inutile anche questo
     public Map<Point<Double>, Boolean> getAllPlanePoints() {
         return this.pointsMap;
     }
 
-    @Override
+    @Override //probabilmente abbastanza inutile
     public List<Point<Double>> getPlaneWrittenPoints() {
-       return this.pointsMap.keySet().stream().filter(x-> x.getPointStatus()).collect(Collectors.toList());
+       return this.pointsMap.keySet().stream().filter(Point::getPointStatus).collect(Collectors.toList());
     }
 
     @Override

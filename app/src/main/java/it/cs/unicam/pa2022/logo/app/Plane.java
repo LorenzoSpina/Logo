@@ -4,7 +4,7 @@ package it.cs.unicam.pa2022.logo.app;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Queue;
+
 
 
 /**
@@ -12,7 +12,8 @@ import java.util.Queue;
  * @param <C> represents the parametric type for the planes' coordinates
  */
 
-public interface Plane<C extends Point<? extends Number>> {
+//public interface Plane<C extends Point<? extends Number>> {
+    public interface Plane<C extends Point<? extends Number>>{
     /**
      * Method that gives back the height of the plane
      *
@@ -40,13 +41,6 @@ public interface Plane<C extends Point<? extends Number>> {
      * @return the Origin's coordinates
      */
     C getOrigin();
-
-    /**
-     * Method that gives back the cursor of a plane
-     *
-     * @return
-     */
-    Cursor getPlaneCursor();
 
     /**
      * method that returns the plane's colour

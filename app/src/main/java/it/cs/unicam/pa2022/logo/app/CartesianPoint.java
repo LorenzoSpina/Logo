@@ -4,7 +4,8 @@ package it.cs.unicam.pa2022.logo.app;
 /**
  *Class that implements a Point using floating numbers
  */
-public class CartesianPoint <D extends Number> implements Point<D>{
+//TODO point è abstracr?
+public abstract class CartesianPoint <D extends Number> implements Point<D>{
 
     private final D XPoint;
     private final D YPoint;

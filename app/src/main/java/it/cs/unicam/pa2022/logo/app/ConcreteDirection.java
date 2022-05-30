@@ -10,7 +10,7 @@ public class ConcreteDirection implements Direction<Integer>{
     }
 
     @Override
-    public  Integer getDirection() {
+    public Integer getDirection() {
         return this.angle;
     }
 

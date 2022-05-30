@@ -1,11 +1,12 @@
 package it.cs.unicam.pa2022.logo.app;
 
-public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>{
+//public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>{
+//non dovrei definire doubl4 su point e integer su direction poiche la classe astratta è ancora un qualcosa di troppo generico
+public abstract class ConcreteCursor<C extends Point<? extends Number>,D extends Direction<? extends Number>> implements Cursor<C,D>{
 
-    //TODO dopo aver risolto la questione del piano
-    private final Plane<Point<Double>> plane;
-    private Point<Double> position;
-    private Direction<Integer> direction;
+    private  Plane<C> plane;
+    private C position;
+    private D direction;
     private RGB lineColour;
     private RGB areaColour;
     private double size;
@@ -13,7 +14,8 @@ public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>
     private boolean pen; //indica se la penna attualmente sta attaccata al piano o meno
 
 
-   /* public ConcreteCursor(Plane plane){
+   /*
+   public ConcreteCursor(Plane plane){
         this.plane=plane;
         this.position = new CartesianPoint<Double>(plane.getLength()/2,plane.getHeight()/2);
         this.direction = new ConcreteDirection(0);
@@ -26,7 +28,7 @@ public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>
 
     */
 
-    public ConcreteCursor(Plane<Point<Double>> plane){
+    /*public ConcreteCursor(Plane<Point<Double>> plane){
         if(plane==null){
             throw new IllegalArgumentException("The plane does not exist!");
         }
@@ -40,34 +42,44 @@ public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>
         this.areaColour=plane.getPlaneCursor().getAreaColour();
         this.size=plane.getPlaneCursor().getSize();
         this.plot=plane.getPlaneCursor().getPlot();
-        this.pen=plane.getPlaneCursor().pen();
+        this.pen=plane.getPlaneCursor().pen(); }
 
+     */
 
+    public ConcreteCursor(C startingPosition, D startingDirection,
+                          RGB startingLineColour, RGB startingAreaColour,double penSize, boolean plot, boolean pen){
+        this.position=startingPosition;
+        this.direction=startingDirection;
+        this.lineColour=startingLineColour;
+        this.areaColour=startingAreaColour;
+        this.plot=plot;
+        this.pen=pen;
     }
 
     @Override
-    public Plane<Point<Double>> getPlane() {
+    public Plane<C> getPlane() {
         return this.plane;
     }
 
     @Override
-    public Point<Double> getPosition() {
+    public C getPosition() {
         return position;
     }
 
     @Override
-    public void setPosition(Point<Double> position) {
+    public void setPosition(C position) {
         this.position=position;
     }
 
     @Override
-    public Direction<Integer> getDirection() {
+    public D getDirection() {
         return direction;
     }
 
-    @Override
-    public void setDirection(D direction) {
-        this.direction=direction;}
+   @Override
+   public void setDirection(D direction){
+        this.direction=direction;
+   }
 
     @Override
     public RGB getLineColour() {
@@ -102,7 +114,6 @@ public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>
     @Override
     public void penDown() {
         this.pen=true;
-
     }
 
     @Override
@@ -127,15 +138,15 @@ public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>
     }
 
     //metodo che disegna un punto
-    public void draw(Point<Double>p){
+    public void draw(C p){
         this.plane.checkIfPointIsNotOutOfBorders(p);
 
-        if(!p.getPointStatus()==true){
+        if(!p.getPointStatus()){
             p.setPointStatus(true);
             this.plane.getAllPlanePoints().put(p,p.getPointStatus());
         }
         //definito il concetto, pero è  come se disegnassi una linea
-        Line<Point<Double>> line = new CartesianLine(p,p,this.getLineColour(),this.getSize());
+        Line<C> line = new LogoLine(p,p,this.getLineColour(),this.getSize());
         this.plane.getPlaneLines().add(line);
     }
 
@@ -152,7 +163,7 @@ public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>
        // this.plane.getPlaneLines().stream().filter(x->x.getEndingLinePoint().equals(line.getOriginLinePoint())).;
 
 
-        for(Line l : plane.getPlaneLines()){
+        for(Line<C> l : plane.getPlaneLines()){
             if(l.getOriginLinePoint().equals(line.getEndingLinePoint())){
                 return true;
             }
@@ -162,5 +173,5 @@ public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>
        return true;
     }
     //controlla se la linea in questione non sia gia stata usata per generare un altra area
-    private checkIfLineIsAlreadyUsed(Line<Point<Double>> line)
+   // private checkIfLineIsAlreadyUsed(Line<Point<Double>> line)
 }

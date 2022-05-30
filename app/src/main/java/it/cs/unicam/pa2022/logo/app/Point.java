@@ -26,7 +26,7 @@ public interface Point<N extends Number> {
 
     boolean getPointStatus();
 
-   void setPointStatus(boolean pointStatus);
+    void setPointStatus(boolean pointStatus);
 
 
 
