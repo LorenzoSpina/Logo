@@ -5,13 +5,14 @@ package it.cs.unicam.pa2022.logo.app;
  *Class that implements a Point using floating numbers
  */
 //TODO point è abstracr?
-public abstract class CartesianPoint <D extends Number> implements Point<D>{
+//public class CartesianPoint <D extends Number> implements Point<D>{
+public class CartesianPoint implements Point{
 
-    private final D XPoint;
-    private final D YPoint;
+    private final double XPoint;
+    private final double YPoint;
     private boolean pointStatus;
 
-    public CartesianPoint(D XPoint, D YPoint) {
+    public CartesianPoint(double XPoint, double YPoint) {
         this.XPoint = XPoint;
         this.YPoint = YPoint;
         this.pointStatus=false;
@@ -22,7 +23,7 @@ public abstract class CartesianPoint <D extends Number> implements Point<D>{
      * Method that gives the x in the plane
      * @return the x in the plane
      */
-    public D getX() {
+    public double getX() {
         return this.XPoint;
     }
 
@@ -31,7 +32,7 @@ public abstract class CartesianPoint <D extends Number> implements Point<D>{
      * Method that gives the y in the plane
      * @return the y in the plane
      */
-    public D getY() {
+    public double getY() {
         return this.YPoint;
     }
 

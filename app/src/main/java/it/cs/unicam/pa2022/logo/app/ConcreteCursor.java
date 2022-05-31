@@ -2,10 +2,11 @@ package it.cs.unicam.pa2022.logo.app;
 
 //public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>{
 //non dovrei definire doubl4 su point e integer su direction poiche la classe astratta è ancora un qualcosa di troppo generico
-public abstract class ConcreteCursor<C extends Point<? extends Number>,D extends Direction<? extends Number>> implements Cursor<C,D>{
+//public abstract class ConcreteCursor<C extends Point<? extends Number>,D extends Direction<? extends Number>> implements Cursor<C,D>{
+public abstract class ConcreteCursor<D extends Direction<? extends Number>> implements Cursor<Point,D>{
 
     private  Plane<C> plane;
-    private C position;
+    private Point position;
     private D direction;
     private RGB lineColour;
     private RGB areaColour;
@@ -138,7 +139,7 @@ public abstract class ConcreteCursor<C extends Point<? extends Number>,D extends
     }
 
     //metodo che disegna un punto
-    public void draw(C p){
+    public void draw(Point p){
         this.plane.checkIfPointIsNotOutOfBorders(p);
 
         if(!p.getPointStatus()){
@@ -146,7 +147,9 @@ public abstract class ConcreteCursor<C extends Point<? extends Number>,D extends
             this.plane.getAllPlanePoints().put(p,p.getPointStatus());
         }
         //definito il concetto, pero è  come se disegnassi una linea
-        Line<C> line = new LogoLine(p,p,this.getLineColour(),this.getSize());
+        Line<Point> line = new LogoLine(p, p, this.getLineColour(), this.getSize()) {
+        };
+
         this.plane.getPlaneLines().add(line);
     }
 
@@ -163,7 +166,7 @@ public abstract class ConcreteCursor<C extends Point<? extends Number>,D extends
        // this.plane.getPlaneLines().stream().filter(x->x.getEndingLinePoint().equals(line.getOriginLinePoint())).;
 
 
-        for(Line<C> l : plane.getPlaneLines()){
+        for(Line<Point> l : plane.getPlaneLines()){
             if(l.getOriginLinePoint().equals(line.getEndingLinePoint())){
                 return true;
             }

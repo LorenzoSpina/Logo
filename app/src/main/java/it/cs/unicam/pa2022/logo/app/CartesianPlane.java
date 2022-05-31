@@ -4,7 +4,7 @@ import java.util.*;
 
 import java.util.stream.Collectors;
 
-public abstract class CartesianPlane implements Plane<Point<Double>>{
+public class CartesianPlane implements Plane<Point<Double>>{
 
     private final double height;
     private final double length;
@@ -135,7 +135,18 @@ public abstract class CartesianPlane implements Plane<Point<Double>>{
 
     @Override
     public void addPoint(Point<Double> point) {
-        this.pointsMap.put(point,true);
+
+        //this.pointsMap.put(point,true);
+        this.checkIfPointIsNotOutOfBorders(point);
+
+        if(!point.getPointStatus()){
+            point.setPointStatus(true);
+            this.getAllPlanePoints().put(point,point.getPointStatus());
+        }
+        //definito il concetto, pero è  come se disegnassi una linea
+        Line<C> line = new LogoLine(point,point,this.getLineColour(),this.getSize());
+
+        this.plane.getPlaneLines().add(line);
     }
 
     @Override

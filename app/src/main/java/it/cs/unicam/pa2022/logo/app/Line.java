@@ -5,7 +5,7 @@ package it.cs.unicam.pa2022.logo.app;
  * @param <C> the parametric type of the coordinates
  */
 
-public interface Line<C extends Point<? extends Number>> {
+public interface Line<C extends Point> {
     /**
      * Method that gives back the origin point of a line
      * @return the origin point of line

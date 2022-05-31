@@ -2,8 +2,8 @@ package it.cs.unicam.pa2022.logo.app;
 //TODO COMMENTI
 
 
-public interface Cursor<C extends Point<? extends Number>,D extends Direction<? extends Number>>{
-
+//public interface Cursor<C extends Point<? extends Number>,D extends Direction<? extends Number>>{
+public interface Cursor<C extends Point,D extends Direction<? extends Number>>
     /**
      * method that gives back the plane of the cursor associated
      * @return the plane
