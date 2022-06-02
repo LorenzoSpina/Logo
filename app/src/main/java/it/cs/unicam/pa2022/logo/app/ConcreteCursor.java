@@ -1,18 +1,23 @@
 package it.cs.unicam.pa2022.logo.app;
 
+
+import java.util.List;
+
+
 //public class ConcreteCursor implements Cursor<Point<Double>, Direction<Integer>>{
 //non dovrei definire doubl4 su point e integer su direction poiche la classe astratta è ancora un qualcosa di troppo generico
-//public abstract class ConcreteCursor<C extends Point<? extends Number>,D extends Direction<? extends Number>> implements Cursor<C,D>{
-public abstract class ConcreteCursor<D extends Direction<? extends Number>> implements Cursor<Point,D>{
 
-    private  Plane<C> plane;
+public abstract class ConcreteCursor implements Cursor<Point,Direction>{
+
+    private  Plane<Point> plane;
     private Point position;
-    private D direction;
+    private Direction direction;
     private RGB lineColour;
     private RGB areaColour;
     private double size;
     private boolean plot; //indica se la penna durante lo spostamento la penna ha tracciato un segno
     private boolean pen; //indica se la penna attualmente sta attaccata al piano o meno
+    private List<Line<Point>> buildingArea;
 
 
    /*
@@ -47,38 +52,37 @@ public abstract class ConcreteCursor<D extends Direction<? extends Number>> impl
 
      */
 
-    public ConcreteCursor(C startingPosition, D startingDirection,
-                          RGB startingLineColour, RGB startingAreaColour,double penSize, boolean plot, boolean pen){
-        this.position=startingPosition;
-        this.direction=startingDirection;
-        this.lineColour=startingLineColour;
-        this.areaColour=startingAreaColour;
-        this.plot=plot;
-        this.pen=pen;
+    public ConcreteCursor(Plane<Point>plane){
+        this.position= new CartesianPoint(plane.getLength()/2,plane.getHeight()/2);
+        this.direction= new ConcreteDirection(0);
+        this.lineColour= new RGB(0,0,0);
+        this.areaColour= new RGB(255,255,255);
+        this.plot= true;
+        this.pen= true;
     }
 
     @Override
-    public Plane<C> getPlane() {
+    public Plane<Point> getPlane() {
         return this.plane;
     }
 
     @Override
-    public C getPosition() {
+    public Point getPosition() {
         return position;
     }
 
     @Override
-    public void setPosition(C position) {
+    public void setPosition(Point position) {
         this.position=position;
     }
 
     @Override
-    public D getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 
    @Override
-   public void setDirection(D direction){
+   public void setDirection(Direction direction){
         this.direction=direction;
    }
 
@@ -138,6 +142,10 @@ public abstract class ConcreteCursor<D extends Direction<? extends Number>> impl
         return this.pen=true;
     }
 
+
+
+
+
     //metodo che disegna un punto
     public void draw(Point p){
         this.plane.checkIfPointIsNotOutOfBorders(p);
@@ -154,27 +162,28 @@ public abstract class ConcreteCursor<D extends Direction<? extends Number>> impl
     }
 
     //metodo che crea una linea ed eventualmente un area chiusa
-    public void drawALine(Line<Point<Double>> line){
+    public void drawALine(Line<Point> line){
+        this.plane.checkIfPointIsNotOutOfBorders(line.getOriginLinePoint());
+        this.plane.checkIfPointIsNotOutOfBorders(line.getEndingLinePoint());
 
-    }
-    private boolean checkIfLineMakesArea(Line<Point<Double>> line){
-        /*this.plane.getPlaneLines()
-                .stream()
-                .filter(x->x.getEndingLinePoint().equals(line.getOriginLinePoint()));
-
-         */
-       // this.plane.getPlaneLines().stream().filter(x->x.getEndingLinePoint().equals(line.getOriginLinePoint())).;
-
-
-        for(Line<Point> l : plane.getPlaneLines()){
-            if(l.getOriginLinePoint().equals(line.getEndingLinePoint())){
-                return true;
+        if(checkIfLineMakesArea(line)){
+            if(!this.checkIfLineIsAlreadyUsed(line)){
+                this.plane.addLine(line);
+                ClosedArea<Line<Point>> area= new LogoArea(this.getAreaColour(),this.buildingArea);
+                this.plane.addClosedArea(area);
             }
-            return false;
         }
-
-       return true;
+        else this.plane.addLine(line);
     }
-    //controlla se la linea in questione non sia gia stata usata per generare un altra area
-   // private checkIfLineIsAlreadyUsed(Line<Point<Double>> line)
+
+    private boolean checkIfLineMakesArea(Line<Point> line){
+
+        return this.plane.getPlaneLines().stream().anyMatch(x->x.getOriginLinePoint().equals(line.getEndingLinePoint()));
+    }
+
+    private boolean checkIfLineIsAlreadyUsed(Line<Point> line){
+         return this.plane.getClosedAreas().stream().anyMatch(x->x.getAreaLines().contains(line));
+         }
+
+
 }

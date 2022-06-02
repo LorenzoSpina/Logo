@@ -4,20 +4,20 @@ import java.util.*;
 
 import java.util.stream.Collectors;
 
-public class CartesianPlane implements Plane<Point<Double>>{
+public class CartesianPlane implements Plane<Point>{
 
     private final double height;
     private final double length;
-    private final Point<Double> home;
-    private final Point<Double> origin;
+    private final Point home;
+    private final Point origin;
     private RGB planeColour;
-    private Map<Point<Double>,Boolean> pointsMap;
-    private List<Line<Point<Double>>> planesLines;
-    private List<Line<Point<Double>>> planesClosedArea; //TODO CLOSED AREA
+    private Map<Point,Boolean> pointsMap;
+    private List<Line<Point>> planesLines;
+    private List<ClosedArea<Line<Point>>> planesClosedArea; //TODO CLOSED AREA
+    private Point cursor;
 
 
-
-    public CartesianPlane(double height,double length,Point<Double> home,Point<Double> origin,RGB startingPlaneColour){
+    public CartesianPlane(double height,double length,Point home,Point origin,RGB startingPlaneColour){
         if(height < 1) {throw new IllegalArgumentException("Insert a bigger height!");}
         this.height=height;
 
@@ -50,13 +50,15 @@ public class CartesianPlane implements Plane<Point<Double>>{
         return this.length;
     }
 
+
+
     @Override
-    public Point<Double> getHome() {
+    public Point getHome() {
         return this.home;
     }
 
     @Override
-    public Point<Double> getOrigin() {
+    public Point getOrigin() {
         return this.origin;
     }
 
@@ -73,14 +75,14 @@ public class CartesianPlane implements Plane<Point<Double>>{
     }
 
     @Override
-    public boolean checkIfPointIsNotOutOfBorders(Point<Double> point) {
+    public Point checkIfPointIsNotOutOfBorders(Point point) {
         /*if((point.getX()>this.getLength())||point.getX()<this.getLength())||(point.getY()>this.getHeight()||point.getY()<this.getHeight())){
             return false;
         }
         return true;
          */
-        Double correctX = point.getX();
-        Double correctY = point.getY();
+        double correctX = point.getX();
+        double correctY=point.getY();
 
 
         if(point.getX()>this.getLength()){
@@ -95,11 +97,12 @@ public class CartesianPlane implements Plane<Point<Double>>{
         if(point.getX()<this.getLength()){
             correctY=0.0;
         }
-        return false;
+        Point correctPoint =new CartesianPoint(correctX,correctY);
+        return correctPoint;
     }
 
     @Override
-    public Optional<Point<Double>> checkIfPointisOnThePlane(Point<Double> point) {
+    public Optional<Point> checkIfPointisOnThePlane(Point point) {
         if (!point.getPointStatus()){
             return Optional.empty();
         }
@@ -107,22 +110,22 @@ public class CartesianPlane implements Plane<Point<Double>>{
     }
 
     @Override //probabilmente inutile anche questo
-    public Map<Point<Double>, Boolean> getAllPlanePoints() {
+    public Map<Point, Boolean> getAllPlanePoints() {
         return this.pointsMap;
     }
 
     @Override //probabilmente abbastanza inutile
-    public List<Point<Double>> getPlaneWrittenPoints() {
+    public List<Point> getPlaneWrittenPoints() {
        return this.pointsMap.keySet().stream().filter(Point::getPointStatus).collect(Collectors.toList());
     }
 
     @Override
-    public List<Line<Point<Double>>> getPlaneLines() {
+    public List<Line<Point>> getPlaneLines() {
         return this.planesLines;
     }
 
     @Override
-    public List<ClosedArea> getClosedAreas() {
+    public List<ClosedArea<Line<Point>>> getClosedAreas() {
         return this.planesClosedArea;
     }
 
@@ -134,7 +137,7 @@ public class CartesianPlane implements Plane<Point<Double>>{
     }
 
     @Override
-    public void addPoint(Point<Double> point) {
+    public void addPoint(Point point) {
 
         //this.pointsMap.put(point,true);
         this.checkIfPointIsNotOutOfBorders(point);
@@ -144,13 +147,13 @@ public class CartesianPlane implements Plane<Point<Double>>{
             this.getAllPlanePoints().put(point,point.getPointStatus());
         }
         //definito il concetto, pero è  come se disegnassi una linea
-        Line<C> line = new LogoLine(point,point,this.getLineColour(),this.getSize());
+        Line<Point> line = new LogoLine(point,point,this.getLineColour(),this.getSize());
 
-        this.plane.getPlaneLines().add(line);
+        this.getPlaneLines().add(line);
     }
 
     @Override
-    public void addLine(Line<Point<Double>> line) {
+    public void addLine(Line<Point> line) {
         this.planesLines.add(line);
 
     }

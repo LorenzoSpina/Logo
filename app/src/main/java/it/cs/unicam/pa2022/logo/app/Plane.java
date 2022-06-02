@@ -12,8 +12,7 @@ import java.util.Optional;
  * @param <C> represents the parametric type for the planes' coordinates
  */
 
-//public interface Plane<C extends Point<? extends Number>> {
-    public interface Plane<C extends Point<? extends Number>>{
+public interface Plane<C extends Point>{
     /**
      * Method that gives back the height of the plane
      *
@@ -28,6 +27,7 @@ import java.util.Optional;
      */
     double getLength();
 
+    Cursor<C,Direction>
     /**
      * Method that gives back the coordinates of the Home(b/2),(h/2)
      *
@@ -41,6 +41,8 @@ import java.util.Optional;
      * @return the Origin's coordinates
      */
     C getOrigin();
+
+
 
     /**
      * method that returns the plane's colour
@@ -69,7 +71,7 @@ import java.util.Optional;
      * @param point we want to check
      * @return true if it is in range, in other way false
      */
-    boolean checkIfPointIsNotOutOfBorders(C point);
+    C checkIfPointIsNotOutOfBorders(C point);
 
 
     /**
@@ -90,7 +92,7 @@ import java.util.Optional;
     List<Line<C>> getPlaneLines();
 
     //TODO TIPO DI CLOSED AREA
-    List<ClosedArea> getClosedAreas();
+    List<ClosedArea<Line<C>>> getClosedAreas();
 
     /**
      * method that clears the plane
@@ -115,7 +117,7 @@ import java.util.Optional;
      * method that add an area on the plane
      * @param area the are that must be added on the plane
      */
-    void addClosedArea(ClosedArea area);
+    void addClosedArea(ClosedArea<Line<C>> area);
 
 
 

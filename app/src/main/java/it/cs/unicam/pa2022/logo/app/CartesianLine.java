@@ -4,7 +4,7 @@ package it.cs.unicam.pa2022.logo.app;
 
 //public class CartesianLine implements Line<Point<Double>> {
 //public abstract class CartesianLine <C extends Point<? extends Number>> implements Line <C>{
-public abstract class CartesianLine<C extends Point> implements Line<C>{
+public abstract class CartesianLine<C extends Point> implements Line<Point>{
 
     /*Point<Double> originLinePoint;
     Point<Double> endingLinePoint;
@@ -12,8 +12,8 @@ public abstract class CartesianLine<C extends Point> implements Line<C>{
     double size;
      */
 
-    private C originLinePoint;
-    private C endingLinePoint;
+    private final C originLinePoint;
+    private final C endingLinePoint;
     private RGB colour;
     private double size;
 

@@ -1,12 +1,25 @@
 package it.cs.unicam.pa2022.logo.app;
 
-import java.util.Deque;
 
-public interface ClosedArea <L extends Line<Point<Double>>> {
+import java.util.List;
 
+/**
+ * Interface that represents a closed area
+ * @param <L> the closed area is parametrized by a Line
+ */
+//public interface ClosedArea <L extends Line<Point>> {
+public interface ClosedArea<C>
+    /**
+     * methode that returns the colour of an area
+     * @return the area colour
+     */
     RGB getAreaColour();
 
-    Deque<Line<Point<Double>>> getAreaLines();
+    /**
+     * method that returns the lines that compose an area
+     * @return the lines that compose the area
+     */
+    List<C> getAreaLines();
 
 
 

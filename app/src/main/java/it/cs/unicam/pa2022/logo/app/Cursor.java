@@ -3,7 +3,7 @@ package it.cs.unicam.pa2022.logo.app;
 
 
 //public interface Cursor<C extends Point<? extends Number>,D extends Direction<? extends Number>>{
-public interface Cursor<C extends Point,D extends Direction<? extends Number>>
+public interface Cursor<C extends Point,D extends Direction>{
     /**
      * method that gives back the plane of the cursor associated
      * @return the plane
@@ -96,7 +96,12 @@ public interface Cursor<C extends Point,D extends Direction<? extends Number>>
      * @return true if yes, false if no
      */
     boolean pen();
-    //metodo statico o di deafult per creare un cursoredi default
+
+
+
+
+
+
 
 
 

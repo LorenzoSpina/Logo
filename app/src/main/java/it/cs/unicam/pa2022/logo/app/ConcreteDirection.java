@@ -1,8 +1,8 @@
 package it.cs.unicam.pa2022.logo.app;
 
-public class ConcreteDirection implements Direction<Integer>{
+public class ConcreteDirection implements Direction{
 
-    private Integer angle;
+    private int angle;
 
     public ConcreteDirection(Integer angle){
         checkIfAngleIsValid(angle);
@@ -10,18 +10,18 @@ public class ConcreteDirection implements Direction<Integer>{
     }
 
     @Override
-    public Integer getDirection() {
+    public int getDirection() {
         return this.angle;
     }
 
     @Override
-    public void setDirection(Integer angle) {
+    public void setDirection(int angle) {
         checkIfAngleIsValid(angle);
         this.angle=angle;
 
     }
 
-    private void checkIfAngleIsValid(Integer angle){
+    private void checkIfAngleIsValid(int angle){
         if(angle<0 || angle>360){
             throw new IllegalArgumentException("The angle is out of range!");
         }

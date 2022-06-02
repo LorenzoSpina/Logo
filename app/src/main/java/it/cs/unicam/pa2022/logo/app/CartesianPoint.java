@@ -4,7 +4,7 @@ package it.cs.unicam.pa2022.logo.app;
 /**
  *Class that implements a Point using floating numbers
  */
-//TODO point è abstracr?
+//TODO point è abstract?
 //public class CartesianPoint <D extends Number> implements Point<D>{
 public class CartesianPoint implements Point{
 
