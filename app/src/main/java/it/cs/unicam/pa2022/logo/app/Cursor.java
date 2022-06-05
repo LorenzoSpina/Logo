@@ -97,6 +97,18 @@ public interface Cursor<C extends Point,D extends Direction>{
      */
     boolean pen();
 
+    /**
+     * method that moves the cursor on the plane drawing or not a line
+     * @param line the line that must be drawn or that just be used for moving without drawing
+     */
+    public void moveCursor(Line<C>line);
+
+    /**
+     * method that draw a line on the plane
+     * @param line the line that must be drawn on the plane
+     */
+    public void drawALine(Line<C> line);
+
 
 
 

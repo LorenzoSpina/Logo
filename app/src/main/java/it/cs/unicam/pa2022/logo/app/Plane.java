@@ -27,7 +27,7 @@ public interface Plane<C extends Point>{
      */
     double getLength();
 
-    Cursor<C,Direction>
+
     /**
      * Method that gives back the coordinates of the Home(b/2),(h/2)
      *
@@ -118,6 +118,9 @@ public interface Plane<C extends Point>{
      * @param area the are that must be added on the plane
      */
     void addClosedArea(ClosedArea<Line<C>> area);
+
+
+    void checkIfLineIsNotOutOfBorder(Line<C>line);
 
 
 

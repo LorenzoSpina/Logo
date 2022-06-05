@@ -1,10 +1,11 @@
 package it.cs.unicam.pa2022.logo.app;
 
-import java.util.*;
+import org.w3c.dom.css.RGBColor;
 
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class CartesianPlane implements Plane<Point>{
+public abstract class CartesianPlane implements Plane<Point>{
 
     private final double height;
     private final double length;
@@ -13,35 +14,33 @@ public class CartesianPlane implements Plane<Point>{
     private RGB planeColour;
     private Map<Point,Boolean> pointsMap;
     private List<Line<Point>> planesLines;
-    private List<ClosedArea<Line<Point>>> planesClosedArea; //TODO CLOSED AREA
-    private Point cursor;
+    private List<ClosedArea<Line<Point>>> planesClosedArea;
 
 
-    public CartesianPlane(double height,double length,Point home,Point origin,RGB startingPlaneColour){
+
+    public CartesianPlane(double height,double length){
         if(height < 1) {throw new IllegalArgumentException("Insert a bigger height!");}
         this.height=height;
 
         if(length < 1) {throw new IllegalArgumentException("Insert a bigger length!");}
         this.length=length;
 
-        if (home == null) {throw new NullPointerException("Home does not exist!");}
-        this.home = home;
 
-        if(origin == null){throw new NullPointerException("Origin does not exist!");}
-        this.origin= origin;
+        this.home = new CartesianPoint(this.getLength()/2,this.height/2);
 
-        this.planeColour=startingPlaneColour;
+        this.origin= new CartesianPoint(0,0);
 
-       this.pointsMap = new HashMap<>();
-       this.planesLines=new ArrayList<>();
-       this.planesClosedArea=new ArrayList<>();
+        this.planeColour=new RGB(255,255,255);
+
+        this.pointsMap = new HashMap<>();
+        this.planesLines=new ArrayList<>();
+        this.planesClosedArea=new ArrayList<>();
     }
 
 
 
     @Override
     public double getHeight() {
-
         return this.height;
     }
 
@@ -49,8 +48,6 @@ public class CartesianPlane implements Plane<Point>{
     public double getLength(){
         return this.length;
     }
-
-
 
     @Override
     public Point getHome() {
@@ -76,11 +73,10 @@ public class CartesianPlane implements Plane<Point>{
 
     @Override
     public Point checkIfPointIsNotOutOfBorders(Point point) {
-        /*if((point.getX()>this.getLength())||point.getX()<this.getLength())||(point.getY()>this.getHeight()||point.getY()<this.getHeight())){
-            return false;
+        if(point==null){
+            throw new NullPointerException("Point does not exist!");
         }
-        return true;
-         */
+
         double correctX = point.getX();
         double correctY=point.getY();
 
@@ -97,6 +93,7 @@ public class CartesianPlane implements Plane<Point>{
         if(point.getX()<this.getLength()){
             correctY=0.0;
         }
+        //TODO correctPoint
         Point correctPoint =new CartesianPoint(correctX,correctY);
         return correctPoint;
     }
@@ -146,24 +143,33 @@ public class CartesianPlane implements Plane<Point>{
             point.setPointStatus(true);
             this.getAllPlanePoints().put(point,point.getPointStatus());
         }
+        //TODO CANCELLARE
         //definito il concetto, pero è  come se disegnassi una linea
-        Line<Point> line = new LogoLine(point,point,this.getLineColour(),this.getSize());
+       // Line<Point> line = new LogoLine(point,point,this.getLineColour(),this.getSize());
 
-        this.getPlaneLines().add(line);
+       // this.getPlaneLines().add(line);
     }
 
     @Override
     public void addLine(Line<Point> line) {
+        if(line==null){
+            throw new NullPointerException("Line does not exist!");
+        }
         this.planesLines.add(line);
 
     }
 
     @Override
-    public void addClosedArea(ClosedArea area){
+    public void addClosedArea(ClosedArea<Line<Point>> area){
         this.planesClosedArea.add(area);
 
     }
 
+    @Override
+    public void checkIfLineIsNotOutOfBorder(Line<Point> line) {
+        this.checkIfPointIsNotOutOfBorders(line.getOriginLinePoint());
+        this.checkIfPointIsNotOutOfBorders(line.getEndingLinePoint());
+    }
 
 
 }

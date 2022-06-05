@@ -132,20 +132,28 @@ public abstract class ConcreteCursor implements Cursor<Point,Direction>{
     }
 
     @Override
-    public void setPlot(boolean plot) {
-        this.plot=plot;
-
-    }
+    public void setPlot(boolean plot) {this.plot=plot;}
 
     @Override
     public boolean pen() {
         return this.pen=true;
     }
 
+    @Override
+    public void moveCursor(Line<Point>line){
+        if(pen){
+            this.drawALine(line);
+            this.setPosition(line.getEndingLinePoint());
+            this.setPlot(true);
+        }
+        this.plane.checkIfLineIsNotOutOfBorder(line);
+        this.setPosition(line.getEndingLinePoint());
+        this.setPlot(false);
+
+    }
 
 
-
-
+    //TODO METTERE IN INTERFACCIA E FARE CONTROLLI, Probabile che non serva
     //metodo che disegna un punto
     public void draw(Point p){
         this.plane.checkIfPointIsNotOutOfBorders(p);
@@ -160,29 +168,36 @@ public abstract class ConcreteCursor implements Cursor<Point,Direction>{
 
         this.plane.getPlaneLines().add(line);
     }
+    //TODO METTERE IN INTERFACCIA E FARE CONTROLLI
 
-    //metodo che crea una linea ed eventualmente un area chiusa
+    @Override
     public void drawALine(Line<Point> line){
-        this.plane.checkIfPointIsNotOutOfBorders(line.getOriginLinePoint());
-        this.plane.checkIfPointIsNotOutOfBorders(line.getEndingLinePoint());
+        this.plane.checkIfLineIsNotOutOfBorder(line);
 
         if(checkIfLineMakesArea(line)){
             if(!this.checkIfLineIsAlreadyUsed(line)){
                 this.plane.addLine(line);
+                this.buildingArea.add(line);
                 ClosedArea<Line<Point>> area= new LogoArea(this.getAreaColour(),this.buildingArea);
                 this.plane.addClosedArea(area);
+                this.buildingArea.clear();
             }
         }
-        else this.plane.addLine(line);
+        this.plane.addLine(line);
+        this.buildingArea.add(line);
     }
 
     private boolean checkIfLineMakesArea(Line<Point> line){
 
-        return this.plane.getPlaneLines().stream().anyMatch(x->x.getOriginLinePoint().equals(line.getEndingLinePoint()));
+        return this.plane.getPlaneLines()
+                .stream()
+                .anyMatch(x->x.getOriginLinePoint().equals(line.getEndingLinePoint()));
     }
 
     private boolean checkIfLineIsAlreadyUsed(Line<Point> line){
-         return this.plane.getClosedAreas().stream().anyMatch(x->x.getAreaLines().contains(line));
+         return this.plane.getClosedAreas()
+                 .stream()
+                 .anyMatch(x->x.getAreaLines().contains(line));
          }
 
 

@@ -7,8 +7,8 @@ import java.util.List;
  * Interface that represents a closed area
  * @param <L> the closed area is parametrized by a Line
  */
-//public interface ClosedArea <L extends Line<Point>> {
-public interface ClosedArea<C>
+public interface ClosedArea <L> {
+//public interface ClosedArea<C>
     /**
      * methode that returns the colour of an area
      * @return the area colour
@@ -19,7 +19,7 @@ public interface ClosedArea<C>
      * method that returns the lines that compose an area
      * @return the lines that compose the area
      */
-    List<C> getAreaLines();
+    List<L> getAreaLines();
 
 
 
