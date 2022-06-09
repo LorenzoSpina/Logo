@@ -12,9 +12,9 @@ public abstract class CartesianPlane implements Plane<Point>{
     private final Point home;
     private final Point origin;
     private RGB planeColour;
-    private Map<Point,Boolean> pointsMap;
-    private List<Line<Point>> planesLines;
-    private List<ClosedArea<Line<Point>>> planesClosedArea;
+    private final Map<Point,Boolean> pointsMap;
+    private final List<Line<Point>> planesLines;
+    private final List<ClosedArea<Line<Point>>> planesClosedArea;
 
 
 
@@ -24,7 +24,6 @@ public abstract class CartesianPlane implements Plane<Point>{
 
         if(length < 1) {throw new IllegalArgumentException("Insert a bigger length!");}
         this.length=length;
-
 
         this.home = new CartesianPoint(this.getLength()/2,this.height/2);
 
@@ -59,8 +58,6 @@ public abstract class CartesianPlane implements Plane<Point>{
         return this.origin;
     }
 
-
-
     @Override
     public RGB getPlaneColour() {
         return this.planeColour;
@@ -94,8 +91,7 @@ public abstract class CartesianPlane implements Plane<Point>{
             correctY=0.0;
         }
         //TODO correctPoint
-        Point correctPoint =new CartesianPoint(correctX,correctY);
-        return correctPoint;
+        return new CartesianPoint(correctX,correctY);
     }
 
     @Override

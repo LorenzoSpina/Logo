@@ -1,6 +1,8 @@
 package it.cs.unicam.pa2022.logo.app;
 
 
+import java.util.Objects;
+
 /**
  *Class that implements a Point using floating numbers
  */
@@ -10,12 +12,10 @@ public class CartesianPoint implements Point{
 
     private final double XPoint;
     private final double YPoint;
-    private boolean pointStatus;
 
     public CartesianPoint(double XPoint, double YPoint) {
         this.XPoint = XPoint;
         this.YPoint = YPoint;
-        this.pointStatus=false;
     }
 
     @Override
@@ -36,15 +36,17 @@ public class CartesianPoint implements Point{
         return this.YPoint;
     }
 
+
     @Override
-    public boolean getPointStatus() {
-        return this.pointStatus;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CartesianPoint that = (CartesianPoint) o;
+        return Double.compare(that.XPoint, XPoint) == 0 && Double.compare(that.YPoint, YPoint) == 0;
     }
 
     @Override
-    public void setPointStatus(boolean pointStatus) {
-        this.pointStatus=pointStatus;
-
-
+    public int hashCode() {
+        return Objects.hash(XPoint, YPoint);
     }
 }
