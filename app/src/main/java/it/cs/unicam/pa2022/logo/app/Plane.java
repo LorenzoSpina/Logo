@@ -3,7 +3,7 @@ package it.cs.unicam.pa2022.logo.app;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
 
 
 
@@ -64,7 +64,7 @@ public interface Plane<C extends Point>{
      * @param point the point that we want to check if is on plane
      * @return return the point if it is written
      */
-    Optional<C> checkIfPointisOnThePlane(C point);
+
 
     /**
      * method that checks if the point is not out of range og the borders
@@ -79,19 +79,19 @@ public interface Plane<C extends Point>{
      *
      * @return the points of the plane
      */
-    Map<C,Boolean> getAllPlanePoints(); //TODO REVISIONARE PER INUTILITA PERERCHE NON SERVE
+
 
     /**
      * method that returns all the written points
      *
      * @return the written points
      */
-    List<C> getPlaneWrittenPoints();
+
 
 
     List<Line<C>> getPlaneLines();
 
-    //TODO TIPO DI CLOSED AREA
+
     List<ClosedArea<Line<C>>> getClosedAreas();
 
     /**
@@ -104,7 +104,7 @@ public interface Plane<C extends Point>{
      *
      * @param point the point that must be added on the plane
      */
-    void addPoint(C point);
+
 
     /**
      * method that add a line on the plane

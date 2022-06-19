@@ -23,6 +23,12 @@ public abstract class CartesianArea implements ClosedArea<Line<Point>>{
         return this.composingLines;
     }
 
+    private int getNumberOfComposingLinea(){
+       return this.getAreaLines().size();
+    }
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -34,5 +40,14 @@ public abstract class CartesianArea implements ClosedArea<Line<Point>>{
     @Override
     public int hashCode() {
         return Objects.hash(areaColour, composingLines);
+    }
+
+    @Override
+    public String toString() {
+        return "CartesianArea{" +
+                "number of Lines=" + this.getNumberOfComposingLinea() +
+                "areaColour=" + areaColour.getR() + areaColour.getG() + areaColour.getB() +
+                ", composingLines=" + composingLines +
+                '}';
     }
 }

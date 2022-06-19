@@ -12,17 +12,16 @@ public abstract class CartesianPlane implements Plane<Point>{
     private final Point home;
     private final Point origin;
     private RGB planeColour;
-    private final Map<Point,Boolean> pointsMap;
     private final List<Line<Point>> planesLines;
     private final List<ClosedArea<Line<Point>>> planesClosedArea;
 
 
 
-    public CartesianPlane(double height,double length){
-        if(height < 1) {throw new IllegalArgumentException("Insert a bigger height!");}
+    public CartesianPlane(double length,double height){
+        if(length < 1) {throw new IllegalArgumentException("Insert a bigger length!");}
         this.height=height;
 
-        if(length < 1) {throw new IllegalArgumentException("Insert a bigger length!");}
+        if(height < 1) {throw new IllegalArgumentException("Insert a bigger height!");}
         this.length=length;
 
         this.home = new CartesianPoint(this.getLength()/2,this.height/2);
@@ -31,7 +30,7 @@ public abstract class CartesianPlane implements Plane<Point>{
 
         this.planeColour=new RGB(255,255,255);
 
-        this.pointsMap = new HashMap<>();
+
         this.planesLines=new ArrayList<>();
         this.planesClosedArea=new ArrayList<>();
     }
@@ -95,24 +94,6 @@ public abstract class CartesianPlane implements Plane<Point>{
     }
 
     @Override
-    public Optional<Point> checkIfPointisOnThePlane(Point point) {
-        if (!point.getPointStatus()){
-            return Optional.empty();
-        }
-        return Optional.of(point);
-    }
-
-    @Override //probabilmente inutile anche questo
-    public Map<Point, Boolean> getAllPlanePoints() {
-        return this.pointsMap;
-    }
-
-    @Override //probabilmente abbastanza inutile
-    public List<Point> getPlaneWrittenPoints() {
-       return this.pointsMap.keySet().stream().filter(Point::getPointStatus).collect(Collectors.toList());
-    }
-
-    @Override
     public List<Line<Point>> getPlaneLines() {
         return this.planesLines;
     }
@@ -129,22 +110,6 @@ public abstract class CartesianPlane implements Plane<Point>{
 
     }
 
-    @Override
-    public void addPoint(Point point) {
-
-        //this.pointsMap.put(point,true);
-        this.checkIfPointIsNotOutOfBorders(point);
-
-        if(!point.getPointStatus()){
-            point.setPointStatus(true);
-            this.getAllPlanePoints().put(point,point.getPointStatus());
-        }
-        //TODO CANCELLARE
-        //definito il concetto, pero è  come se disegnassi una linea
-       // Line<Point> line = new LogoLine(point,point,this.getLineColour(),this.getSize());
-
-       // this.getPlaneLines().add(line);
-    }
 
     @Override
     public void addLine(Line<Point> line) {
@@ -167,5 +132,12 @@ public abstract class CartesianPlane implements Plane<Point>{
         this.checkIfPointIsNotOutOfBorders(line.getEndingLinePoint());
     }
 
-
+    @Override
+    public String toString() {
+        return "CartesianPlane{" +
+                "height=" + height +
+                ", length=" + length +
+                ", planeColour=" + planeColour.getR() + planeColour.getG() +planeColour.getB() +
+                '}';
+    }
 }

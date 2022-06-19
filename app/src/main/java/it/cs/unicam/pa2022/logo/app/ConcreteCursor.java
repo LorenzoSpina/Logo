@@ -153,21 +153,6 @@ public abstract class ConcreteCursor implements Cursor<Point,Direction>{
     }
 
 
-    //TODO METTERE IN INTERFACCIA E FARE CONTROLLI, Probabile che non serva
-    //metodo che disegna un punto
-    public void draw(Point p){
-        this.plane.checkIfPointIsNotOutOfBorders(p);
-
-        if(!p.getPointStatus()){
-            p.setPointStatus(true);
-            this.plane.getAllPlanePoints().put(p,p.getPointStatus());
-        }
-        //definito il concetto, pero è  come se disegnassi una linea
-        Line<Point> line = new LogoLine(p, p, this.getLineColour(), this.getSize()) {
-        };
-
-        this.plane.getPlaneLines().add(line);
-    }
     //TODO METTERE IN INTERFACCIA E FARE CONTROLLI
 
     @Override

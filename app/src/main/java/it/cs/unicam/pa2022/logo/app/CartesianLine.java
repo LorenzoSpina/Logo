@@ -53,4 +53,14 @@ public abstract class CartesianLine<C extends Point> implements Line<Point>{
     public int hashCode() {
         return Objects.hash(originLinePoint, endingLinePoint, colour, size);
     }
+
+    @Override
+    public String toString() {
+        return "CartesianLine{" +
+                "originLinePoint=" + originLinePoint +
+                ", endingLinePoint=" + endingLinePoint +
+                ", colour=" + colour.getR() + colour.getG() + colour.getB() +
+                ", size=" + size +
+                '}';
+    }
 }
